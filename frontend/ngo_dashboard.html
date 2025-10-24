@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NGO Dashboard</title>
+    
+    <script src="js/protect.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .sidebar::-webkit-scrollbar { display: none; }
+        .sidebar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+<div class="flex h-screen overflow-hidden">
+    <div class="sidebar w-64 md:flex flex-col p-6 bg-green-800 text-white overflow-y-auto transition-transform duration-300 ease-in-out hidden">
+        <h1 class="text-3xl font-bold mb-8">MediConnect</h1>
+        <nav class="flex-1">
+            <a href="#" id="nav-donations" class="nav-link block p-3 rounded-lg text-lg font-semibold bg-green-700">💖 Pending Donations</a>
+            </nav>
+        <button id="logout-btn" class="bg-red-600 text-white p-3 rounded-lg w-full mt-6 hover:bg-red-700">Logout</button>
+    </div>
+
+    <div class="flex-1 flex flex-col overflow-y-auto">
+        <header class="md:hidden bg-white shadow-md p-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-green-600">NGO Panel</h1>
+            <button id="logout-btn-mobile" class="bg-red-500 text-white px-3 py-1 rounded-lg">Logout</button>
+        </header>
+
+        <main class="flex-1 p-6 md:p-10">
+
+            <div id="page-donations" class="page-content">
+                <h2 id="ngo-welcome-heading" class="text-3xl font-bold text-gray-800 mb-6">Pending Donation Requests</h2>
+                <div id="pending-donations-list" class="space-y-4">
+                    <p>Loading pending donations...</p>
+                    </div>
+            </div>
+
+            </main>
+    </div>
+</div>
+
+<script src="js/dashboard.js"></script>
+</body>
+</html>

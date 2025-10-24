@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+
+    <script src="js/protect.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Hide scrollbar for sidebar */
+        .sidebar::-webkit-scrollbar { display: none; }
+        .sidebar { -ms-overflow-style: none; scrollbar-width: none; }
+        /* Basic modal styles */
+        .modal { transition: opacity 0.25s ease; }
+        body.modal-active { overflow-y: hidden; }
+    </style>
+</head>
+<body class="bg-gray-100 modal-active">
+
+<div class="flex h-screen overflow-hidden">
+    <div class="sidebar w-64 md:flex flex-col p-6 bg-blue-800 text-white overflow-y-auto transition-transform duration-300 ease-in-out hidden">
+        <h1 class="text-3xl font-bold mb-8">MediConnect</h1>
+        <nav class="flex-1">
+            <a href="#" id="nav-my-medicines" class="nav-link block p-3 rounded-lg text-lg font-semibold bg-blue-700">💊 My Medicines</a>
+            <a href="#" id="nav-search" class="nav-link block p-3 rounded-lg text-lg mt-2 hover:bg-blue-700">🔍 Search Medicine</a>
+            <a href="#" id="nav-donate" class="nav-link block p-3 rounded-lg text-lg mt-2 hover:bg-blue-700">💖 Donate Medicine</a>
+            </nav>
+        <button id="logout-btn" class="bg-red-600 text-white p-3 rounded-lg w-full mt-6 hover:bg-red-700">Logout</button>
+    </div>
+
+    <div class="flex-1 flex flex-col overflow-y-auto">
+        <header class="md:hidden bg-white shadow-md p-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-blue-600">User Dashboard</h1>
+            <button id="logout-btn-mobile" class="bg-red-500 text-white px-3 py-1 rounded-lg">Logout</button>
+        </header>
+
+        <main class="flex-1 p-6 md:p-10">
+
+            <div id="page-my-medicines" class="page-content">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-3xl font-bold text-gray-800">My Medicines</h2>
+                    <button id="btn-add-medicine" class="bg-blue-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-blue-700">
+                        ➕ Add Medicine
+                    </button>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg overflow-x-auto">
+                    <table class="w-full min-w-[600px]">
+                        <thead>
+                            <tr class="text-left text-gray-600 border-b-2 border-gray-200">
+                                <th class="p-3">Medicine</th>
+                                <th class="p-3">Expiry Date</th>
+                                <th class="p-3">Days Left</th>
+                                <th class="p-3">Status</th>
+                                <th class="p-3">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="my-medicines-table-body">
+                            <tr><td colspan="5" class="p-4 text-center">Loading your medicines...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="page-search" class="page-content hidden">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">Search Medicine Availability</h2>
+                <div class="bg-white p-6 rounded-lg shadow mb-6">
+                    <form id="search-medicine-form" class="flex items-center">
+                        <input type="text" id="search-input" class="block w-full p-3 border rounded-l-md" placeholder="Search for a medicine (e.g., Paracetamol)">
+                        <button type="submit" class="bg-blue-600 text-white p-3 rounded-r-md hover:bg-blue-700">Search</button>
+                    </form>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h2 class="text-xl font-semibold mb-4">Search Results</h2>
+                    <div id="medicine-results-list" class="space-y-4">
+                        <p>Enter a medicine name above to search.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="page-donate" class="page-content hidden">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">Donate Medicines</h2>
+                <div id="donate-step-1" class="bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-semibold mb-4">Step 1: Select Medicines for Donation</h3>
+                    <p class="text-gray-600 mb-4">Select one or more unexpired medicines from your list to donate.</p>
+                    <div id="donation-medicine-list" class="space-y-2 max-h-60 overflow-y-auto border p-4 rounded-md">
+                        <p>Loading your eligible medicines...</p>
+                    </div>
+                    <button id="btn-to-step-2" class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 mt-4" disabled>
+                        Next: Find a Center
+                    </button>
+                </div>
+                <div id="donate-step-2" class="bg-white p-6 rounded-lg shadow-lg mt-6 hidden">
+                    <h3 class="text-xl font-semibold mb-4">Step 2: Select a Verified Donation Center</h3>
+                    <div id="donation-center-list" class="space-y-4 max-h-80 overflow-y-auto">
+                        <p>Loading nearby centers...</p>
+                    </div>
+                </div>
+            </div>
+
+             <div class="mt-8 bg-white p-6 rounded-lg shadow-lg">
+                <h2 class="text-xl font-semibold mb-4">Ask About Medicines 🤖</h2>
+                <div id="chatbox" class="h-64 overflow-y-auto border rounded-md p-3 mb-3 bg-gray-50 space-y-2">
+                    <div class="text-gray-500 italic">Ask a question about a medicine below... (Do not ask for medical advice)</div>
+                </div>
+                <div class="flex">
+                    <input type="text" id="chat-input" class="flex-grow p-2 border rounded-l-md" placeholder="Type your question...">
+                    <button id="chat-send-btn" class="bg-purple-600 text-white px-4 py-2 rounded-r-md hover:bg-purple-700">Send</button>
+                </div>
+            </div>
+            </main> </div> </div> <div id="add-medicine-modal" class="modal fixed w-full h-full top-0 left-0 flex items-center justify-center hidden z-50">
+    <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+    <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded-lg shadow-lg z-50 overflow-y-auto">
+        <div class="modal-content py-4 text-left px-6">
+            <div class="flex justify-between items-center pb-3">
+                <p class="text-2xl font-bold">Add to My Medicines</p>
+                <div class="modal-close-add cursor-pointer z-50">X</div>
+            </div>
+            <form id="add-medicine-form" class="space-y-4" enctype="multipart/form-data">
+                <div>
+                    <label for="med-name" class="block text-sm font-medium text-gray-700">Medicine Name *</label>
+                    <input type="text" id="med-name" name="medicineName" class="mt-1 block w-full p-2 border rounded-md" required>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label for="med-brand" class="block text-sm font-medium text-gray-700">Brand (optional)</label>
+                        <input type="text" id="med-brand" name="brand" class="mt-1 block w-full p-2 border rounded-md">
+                    </div>
+                    <div>
+                        <label for="med-quantity" class="block text-sm font-medium text-gray-700">Quantity *</label>
+                        <input type="text" id="med-quantity" name="quantity" class="mt-1 block w-full p-2 border rounded-md" placeholder="e.g., 1 strip, 50ml" required>
+                    </div>
+                </div>
+                <div>
+                    <label for="med-expiry" class="block text-sm font-medium text-gray-700">Expiry Date *</label>
+                    <input type="date" id="med-expiry" name="expiryDate" class="mt-1 block w-full p-2 border rounded-md" required>
+                </div>
+                <div>
+                    <label for="med-photo" class="block text-sm font-medium text-gray-700">Photo (optional)</label>
+                    <input type="file" id="med-photo" name="photo" class="mt-1 block w-full text-sm">
+                </div>
+                <div class="flex justify-end pt-4">
+                    <button type="button" class="modal-close-add bg-gray-200 text-gray-800 px-4 py-2 rounded-lg mr-2 hover:bg-gray-300">Cancel</button>
+                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Add Medicine</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="js/dashboard.js"></script>
+</body>
+</html>

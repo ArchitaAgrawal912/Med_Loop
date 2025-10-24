@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pharmacy Dashboard</title>
+    
+    <script src="js/protect.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .sidebar::-webkit-scrollbar { display: none; }
+        .sidebar { -ms-overflow-style: none; scrollbar-width: none; }
+        .modal { transition: opacity 0.25s ease; }
+        body.modal-active { overflow-y: hidden; }
+    </style>
+</head>
+<body class="bg-gray-100 modal-active">
+
+<div class="flex h-screen overflow-hidden">
+    <div class="sidebar w-64 md:flex flex-col p-6 bg-blue-800 text-white overflow-y-auto transition-transform duration-300 ease-in-out hidden">
+        <h1 class="text-3xl font-bold mb-8">MediConnect</h1>
+        <nav class="flex-1">
+            <a href="#" id="nav-home" class="nav-link block p-3 rounded-lg text-lg font-semibold bg-blue-700">🏠 Dashboard Home</a>
+            <a href="#" id="nav-manage" class="nav-link block p-3 rounded-lg text-lg mt-2 hover:bg-blue-700">💊 Manage Medicines</a>
+            <a href="#" id="nav-orders" class="nav-link block p-3 rounded-lg text-lg mt-2 hover:bg-blue-700">🛒 Pending Orders</a>
+            </nav>
+        <button id="logout-btn" class="bg-red-600 text-white p-3 rounded-lg w-full mt-6 hover:bg-red-700">Logout</button>
+    </div>
+
+    <div class="flex-1 flex flex-col overflow-y-auto">
+        <header class="md:hidden bg-white shadow-md p-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-blue-600">Pharmacy Panel</h1>
+            <button id="logout-btn-mobile" class="bg-red-500 text-white px-3 py-1 rounded-lg">Logout</button>
+        </header>
+
+        <main class="flex-1 p-6 md:p-10">
+
+            <div id="page-home" class="page-content">
+                <h2 id="welcome-heading" class="text-3xl font-bold text-gray-800 mb-6">Welcome... 👋</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-lg font-semibold text-gray-500">Total Medicines Listed</h3>
+                        <p id="stats-total" class="text-4xl font-bold text-blue-600">...</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-lg font-semibold text-gray-500">In Stock</h3>
+                        <p id="stats-in-stock" class="text-4xl font-bold text-green-600">...</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-lg font-semibold text-gray-500">Out of Stock</h3>
+                        <p id="stats-out-of-stock" class="text-4xl font-bold text-red-600">...</p>
+                    </div>
+                </div>
+                <div class="mt-8">
+                    <button id="btn-add-new-quick" class="bg-blue-600 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-blue-700">
+                        ➕ Add New Medicine
+                    </button>
+                    <button id="btn-view-all-quick" class="bg-gray-200 text-gray-800 px-6 py-3 rounded-lg text-lg font-semibold hover:bg-gray-300 ml-4">
+                        📦 View All Medicines
+                    </button>
+                </div>
+            </div>
+
+            <div id="page-manage" class="page-content hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-3xl font-bold text-gray-800">Manage Medicines</h2>
+                    <button id="btn-add-new-main" class="bg-blue-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-blue-700">
+                        ➕ Add New Medicine
+                    </button>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg overflow-x-auto">
+                    <table class="w-full min-w-[600px]">
+                        <thead>
+                            <tr class="text-left text-gray-600 border-b-2 border-gray-200">
+                                <th class="p-3">Medicine Name</th>
+                                <th class="p-3">Type</th>
+                                <th class="p-3">Expiry</th>
+                                <th class="p-3">Stock</th>
+                                <th class="p-3">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="medicine-table-body">
+                            <tr><td colspan="5" class="p-4 text-center">Loading medicines...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="page-orders" class="page-content hidden">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">Pending Orders</h2>
+                <div id="pending-orders-list" class="space-y-4">
+                    <p>Loading pending orders...</p>
+                    </div>
+            </div>
+            </main>
+    </div>
+</div>
+
+<div id="medicine-modal" class="modal fixed w-full h-full top-0 left-0 flex items-center justify-center hidden z-50">
+    <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+    <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded-lg shadow-lg z-50 overflow-y-auto">
+        <div class="modal-content py-4 text-left px-6">
+            <div class="flex justify-between items-center pb-3">
+                <p id="modal-title" class="text-2xl font-bold">Add New Medicine</p>
+                <div id="modal-close" class="modal-close cursor-pointer z-50">X</div>
+            </div>
+            <form id="medicine-form" class="space-y-4">
+                <input type="hidden" id="medicine-id">
+                <div>
+                    <label for="medicine-name" class="block text-sm font-medium text-gray-700">Medicine Name *</label>
+                    <input type="text" id="medicine-name" class="mt-1 block w-full p-2 border rounded-md" required>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label for="medicine-type" class="block text-sm font-medium text-gray-700">Type *</label>
+                        <select id="medicine-type" class="mt-1 block w-full p-2 border rounded-md" required>
+                            <option value="Tablet">Tablet</option>
+                            <option value="Syrup">Syrup</option>
+                            <option value="Injection">Injection</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="medicine-expiry" class="block text-sm font-medium text-gray-700">Expiry Date *</label>
+                        <input type="date" id="medicine-expiry" class="mt-1 block w-full p-2 border rounded-md" required>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label for="medicine-quantity" class="block text-sm font-medium text-gray-700">Total Quantity *</label>
+                        <input type="number" id="medicine-quantity" class="mt-1 block w-full p-2 border rounded-md" required>
+                    </div>
+                    <div>
+                        <label for="medicine-price" class="block text-sm font-medium text-gray-700">Price per Unit (optional)</label>
+                        <input type="number" id="medicine-price" class="mt-1 block w-full p-2 border rounded-md">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Stock Status *</label>
+                    <div class="mt-2 flex items-center">
+                        <input type="radio" id="stock-in" name="stockStatus" value="In Stock" class="h-4 w-4" checked>
+                        <label for="stock-in" class="ml-2">In Stock</label>
+                        <input type="radio" id="stock-out" name="stockStatus" value="Out of Stock" class="h-4 w-4 ml-6">
+                        <label for="stock-out" class="ml-2">Out of Stock</label>
+                    </div>
+                </div>
+                <div class="flex justify-end pt-4">
+                    <button type="button" id="modal-cancel" class="modal-close bg-gray-200 text-gray-800 px-4 py-2 rounded-lg mr-2 hover:bg-gray-300">Cancel</button>
+                    <button type="submit" id="modal-submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Add Medicine</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="js/dashboard.js"></script>
+</body>
+</html>

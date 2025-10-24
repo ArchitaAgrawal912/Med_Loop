@@ -1,0 +1,189 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediConnect - Welcome</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="container mx-auto p-4 max-w-4xl">
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-blue-600">MediConnect</h1>
+            <p class="text-gray-600">Your Community Medicine Tracker</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8 bg-white p-8 rounded-lg shadow-lg">
+
+            <div>
+                <h2 class="text-2xl font-semibold mb-4 text-gray-800">Login</h2>
+                <form id="login-form" class="space-y-4">
+                    <input type="email" id="login-email" placeholder="Email" class="w-full p-3 border rounded-lg" required>
+                    <div class="relative">
+                        <input type="password" id="login-password" placeholder="Password" class="w-full p-3 border rounded-lg pr-10" required>
+                        <button type="button" class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-500 password-toggle" data-target="login-password">
+                            👁️
+                        </button>
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700">Login</button>
+                </form>
+            </div>
+
+            <div>
+                <h2 class="text-2xl font-semibold mb-4 text-gray-800">Register</h2>
+
+                <form id="register-form" class="space-y-4" enctype="multipart/form-data">
+
+                    <select id="register-role" name="role" class="w-full p-3 border rounded-lg">
+                        <option value="user">I am a User</option>
+                        <option value="pharmacy">I am a Pharmacy</option>
+                        <option value="ngo">I am an NGO/Hospital</option>
+                    </select>
+                    <input type="email" id="register-email" name="email" placeholder="Email" class="w-full p-3 border rounded-lg" required>
+                    <div class="relative">
+                        <input type="password" id="register-password" name="password" placeholder="Password" class="w-full p-3 border rounded-lg pr-10" required>
+                        <button type="button" class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-500 password-toggle" data-target="register-password">
+                            👁️
+                        </button>
+                    </div>
+                    <input type="text" id="register-address" name="address" placeholder="Address" class="w-full p-3 border rounded-lg">
+                    <input type="text" id="register-city" name="city" placeholder="City" class="w-full p-3 border rounded-lg">
+                    <input type="text" id="register-pincode" name="pincode" placeholder="Pincode" class="w-full p-3 border rounded-lg">
+
+                    <div id="user-fields" class="space-y-4">
+                        <input type="text" id="user-name" name="name" placeholder="Full Name" class="w-full p-3 border rounded-lg">
+                        <input type="tel" id="user-phone" name="userPhoneNumber" placeholder="Phone Number" class="w-full p-3 border rounded-lg">
+                    </div>
+
+                    <div id="ngo-fields" class="hidden space-y-4">
+                        <input type="text" id="ngo-orgName" name="organizationName" placeholder="Organization Name" class="w-full p-3 border rounded-lg">
+                        <select id="ngo-orgType" name="organizationType" class="w-full p-3 border rounded-lg">
+                            <option value="">Select Organization Type</option>
+                            <option value="ngo">NGO</option>
+                            <option value="govt_hospital">Govt. Hospital</option>
+                            <option value="private_hospital">Private Hospital</option>
+                        </select>
+                        <input type="text" id="ngo-regNum" name="registrationNumber" placeholder="Registration Number" class="w-full p-3 border rounded-lg">
+                        <input type="text" id="ngo-contactPerson" name="contactPersonName" placeholder="Contact Person Name" class="w-full p-3 border rounded-lg">
+                        <input type="text" id="ngo-phone" name="ngoPhoneNumber" placeholder="Contact Number" class="w-full p-3 border rounded-lg">
+                        <input type="text" id="ngo-opTime" name="operatingTime" placeholder="Operating Time (e.g., 9 AM - 5 PM)" class="w-full p-3 border rounded-lg">
+                        <input type="text" id="ngo-accepting" name="acceptingMedicine" placeholder="Accepting (e.g., tablets,syrups)" class="w-full p-3 border rounded-lg">
+                        <label class="block text-sm font-medium text-gray-700">Registration Proof (PDF)</label>
+                        <input type="file" id="ngo-regProof" name="registrationProof" class="w-full p-2 border rounded-lg" accept="application/pdf">
+                    </div>
+
+                    <div id="pharmacy-fields" class="hidden space-y-4">
+                        <input type="text" id="pharmacy-name" name="pharmacyName" placeholder="Pharmacy Name" class="w-full p-3 border rounded-lg">
+                        <input type="text" id="pharmacy-licNum" name="licenceNumber" placeholder="Licence Number" class="w-full p-3 border rounded-lg">
+                        <input type="text" id="pharmacy-phone" name="contactNumber" placeholder="Contact Number" class="w-full p-3 border rounded-lg">
+                        <input type="text" id="pharmacy-opHours" name="operatingHours" placeholder="Operating Hours (e.g., Mon-Fri 9-5)" class="w-full p-3 border rounded-lg">
+                        <label class="block text-sm font-medium text-gray-700">Licence Proof (PDF)</label>
+                        <input type="file" id="pharmacy-licProof" name="licenceProof" class="w-full p-2 border rounded-lg" accept="application/pdf">
+                    </div>
+
+                    <button type="submit" class="w-full bg-green-600 text-white p-3 rounded-lg hover:bg-green-700">Register</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+</body>
+</html>
+</html> -->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediConnect - Welcome</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="container mx-auto p-4 max-w-4xl">
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-blue-600">MediConnect</h1>
+            <p class="text-gray-600">Your Community Medicine Tracker</p>
+            <a href="index.html" class="text-blue-500 hover:underline mt-2 block">&larr; Back to Home</a>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8 bg-white p-8 rounded-lg shadow-lg">
+
+            <div>
+                <h2 class="text-2xl font-semibold mb-4 text-gray-800">Login</h2>
+                <form id="login-form" class="space-y-4">
+                    <input type="email" id="login-email" placeholder="Email" class="w-full p-3 border rounded-lg" required>
+                    <div class="relative">
+                        <input type="password" id="login-password" placeholder="Password" class="w-full p-3 border rounded-lg pr-10" required>
+                        <button type="button" class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-500 password-toggle" data-target="login-password">
+                            👁️
+                        </button>
+                    </div>
+                    <div id="login-error" class="text-red-600 text-sm hidden"></div> <button type="submit" class="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700">Login</button>
+                </form>
+            </div>
+
+            <div>
+                <h2 class="text-2xl font-semibold mb-4 text-gray-800">Register</h2>
+
+                <form id="register-form" class="space-y-4" enctype="multipart/form-data">
+
+                    <select id="register-role" name="role" class="w-full p-3 border rounded-lg">
+                        <option value="user">I am a User</option>
+                        <option value="pharmacy">I am a Pharmacy</option>
+                        <option value="ngo">I am an NGO/Hospital</option>
+                    </select>
+                    <input type="email" id="register-email" name="email" placeholder="Email" class="w-full p-3 border rounded-lg" required>
+                    <div class="relative">
+                        <input type="password" id="register-password" name="password" placeholder="Password" class="w-full p-3 border rounded-lg pr-10" required>
+                        <button type="button" class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-500 password-toggle" data-target="register-password">
+                            👁️
+                        </button>
+                    </div>
+                    <input type="text" id="register-address" name="address" placeholder="Address" class="w-full p-3 border rounded-lg">
+                    <input type="text" id="register-city" name="city" placeholder="City" class="w-full p-3 border rounded-lg">
+                    <input type="text" id="register-pincode" name="pincode" placeholder="Pincode" class="w-full p-3 border rounded-lg">
+
+                    <div id="user-fields" class="space-y-4">
+                        <input type="text" id="user-name" name="name" placeholder="Full Name" class="w-full p-3 border rounded-lg">
+                        <input type="tel" id="user-phone" name="userPhoneNumber" placeholder="Phone Number" class="w-full p-3 border rounded-lg">
+                    </div>
+
+                    <div id="ngo-fields" class="hidden space-y-4">
+                        <input type="text" id="ngo-orgName" name="organizationName" placeholder="Organization Name" class="w-full p-3 border rounded-lg">
+                        <select id="ngo-orgType" name="organizationType" class="w-full p-3 border rounded-lg">
+                            <option value="">Select Organization Type</option>
+                            <option value="ngo">NGO</option>
+                            <option value="govt_hospital">Govt. Hospital</option>
+                            <option value="private_hospital">Private Hospital</option>
+                        </select>
+                        <input type="text" id="ngo-regNum" name="registrationNumber" placeholder="Registration Number" class="w-full p-3 border rounded-lg">
+                        <input type="text" id="ngo-contactPerson" name="contactPersonName" placeholder="Contact Person Name" class="w-full p-3 border rounded-lg">
+                        <input type="text" id="ngo-phone" name="ngoPhoneNumber" placeholder="Contact Number" class="w-full p-3 border rounded-lg">
+                        <input type="text" id="ngo-opTime" name="operatingTime" placeholder="Operating Time (e.g., 9 AM - 5 PM)" class="w-full p-3 border rounded-lg">
+                        <input type="text" id="ngo-accepting" name="acceptingMedicine" placeholder="Accepting (e.g., tablets,syrups)" class="w-full p-3 border rounded-lg">
+                        <label class="block text-sm font-medium text-gray-700">Registration Proof (PDF)</label>
+                        <input type="file" id="ngo-regProof" name="registrationProof" class="w-full p-2 border rounded-lg" accept="application/pdf">
+                    </div>
+
+                    <div id="pharmacy-fields" class="hidden space-y-4">
+                        <input type="text" id="pharmacy-name" name="pharmacyName" placeholder="Pharmacy Name" class="w-full p-3 border rounded-lg">
+                        <input type="text" id="pharmacy-licNum" name="licenceNumber" placeholder="Licence Number" class="w-full p-3 border rounded-lg">
+                        <input type="text" id="pharmacy-phone" name="contactNumber" placeholder="Contact Number" class="w-full p-3 border rounded-lg">
+                        <input type="text" id="pharmacy-opHours" name="operatingHours" placeholder="Operating Hours (e.g., Mon-Fri 9-5)" class="w-full p-3 border rounded-lg">
+                        <label class="block text-sm font-medium text-gray-700">Licence Proof (PDF)</label>
+                        <input type="file" id="pharmacy-licProof" name="licenceProof" class="w-full p-2 border rounded-lg" accept="application/pdf">
+                    </div>
+
+                    <div id="register-error" class="text-red-600 text-sm hidden"></div> <button type="submit" class="w-full bg-green-600 text-white p-3 rounded-lg hover:bg-green-700">Register</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+</body>
+</html>

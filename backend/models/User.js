@@ -80,6 +80,12 @@ const UserSchema = new mongoose.Schema({
     type: String,
   },
 
+  //Fields for Telegram Integration
+  telegramChatId: {
+     type: String,
+     unique: true, 
+     sparse: true },
+
 }, { timestamps: true }); // Adds createdAt and updatedAt timestamps
 
 module.exports = mongoose.model('User', UserSchema);

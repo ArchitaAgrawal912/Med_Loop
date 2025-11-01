@@ -65,7 +65,7 @@ async function checkExpiries() {
             if (user) {
                 await sendReminderEmail(user.email, med.medicineName, "has expired and was removed from your list");
             }
-            // Auto-delete the medicine
+            // Auto- the medicine
             await med.deleteOne();
         }
         console.log(`Auto-deleted ${expiredMeds.length} expired medicines.`);

@@ -1,5 +1,6 @@
 // File: frontend/js/dashboard.js
-
+const API_BASE_URL = 'http://localhost:3000/api'; 
+const userToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjkwMTE0OTUzOTdjODM3Y2VlNGNiNDYxIiwicm9sZSI6InVzZXIifSwiaWF0IjoxNzYxOTcwNTE3LCJleHAiOjE3NjE5ODg1MTd9.T4VnoBqb2VUtS4pri8Rqk3e-YIPDxHP2Hbkftx_CIiM";
 document.addEventListener('DOMContentLoaded', () => {
 
     console.log("Dashboard JS Loaded"); // Debug Log 1
@@ -237,6 +238,8 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <button class="delete-btn text-xs bg-gray-500 text-white px-2 py-1 rounded hover:opacity-80 ml-2" data-id="${med._id}">
                                     🗑️ Delete
                                 </button>
+                               
+                                
                             </td>
                         `;
                         tableBody.appendChild(tr);
@@ -352,6 +355,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
             });
+
+
+
 
             // --- F: Pending Orders Logic ---
             async function fetchPendingOrders() {
@@ -529,6 +535,9 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <button class="delete-med-btn text-xs bg-red-500 text-white px-2 py-1 rounded hover:opacity-80" data-id="${med._id}">
                                     🗑️ Delete
                                 </button>
+                                 <button class="reminder-btn text-xs bg-green-600 text-white px-2 py-1 rounded hover:opacity-80 ml-2" data-id="${med._id}">
+        ⏰ Set Reminder
+    </button>
                             </td>
                         `;
                         myMedsTableBody.appendChild(tr);
@@ -559,6 +568,101 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
             });
+myMedsTableBody.addEventListener('click', (e) => {
+  const reminderBtn = e.target.closest('button.reminder-btn');
+  if (reminderBtn) {
+    const medId = reminderBtn.dataset.id;
+    openReminderModal(medId);
+  }
+});
+
+// --- Reminder Modal Logic ---
+const reminderModal = document.getElementById('set-reminder-modal');
+const reminderForm = document.getElementById('set-reminder-form');
+const cancelReminder = document.getElementById('cancel-reminder');
+const reminderMedId = document.getElementById('reminder-med-id');
+// Keep a reference to the input element; read its value at submit time so updates are captured
+const telegramChatIdInput = document.getElementById('med-telegram-id');
+
+function openReminderModal(medId) {
+  reminderMedId.value = medId;
+  reminderModal.classList.remove('hidden');
+}
+function closeReminderModal() {
+  reminderModal.classList.add('hidden');
+}
+cancelReminder.addEventListener('click', closeReminderModal);
+
+// // Handle Save Reminder form
+// reminderForm.addEventListener('submit', async (e) => {
+//   e.preventDefault();
+//   const data = {
+//     medicineId: reminderMedId.value,
+//     purchaseDate: document.getElementById('purchase-date').value,
+//     stockDays: document.getElementById('stock-days').value,
+//     dosage: document.getElementById('dosage').value,
+//     reminderTimes: document.getElementById('reminder-times').value.split(',').map(t => t.trim())
+//   };
+//   console.log("Saving Reminder:", data);
+//   closeReminderModal();
+//   alert('Reminder saved successfully! Telegram bot will send reminders at specified times.');
+// });
+
+// ... (existing frontend code) ...
+
+// IMPORTANT: Replace the dummy alert logic with this fetch API call
+reminderForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    // Collect data from the form
+    const medId = document.getElementById('reminder-med-id').value;
+    const rawReminderTimes = document.getElementById('reminder-times').value;
+    
+    const data = {
+        // NOTE: Use the exact key names expected by the backend controller
+        purchaseDate: document.getElementById('purchase-date').value,
+        stockDays: document.getElementById('stock-days').value,
+        dosage: document.getElementById('dosage').value,
+        reminderTimes: rawReminderTimes.split(',').map(t => t.trim()), // Array of strings
+    // ... existing reminder fields (purchaseDate, stockDays, etc.) ...
+    telegramChatId: (telegramChatIdInput && telegramChatIdInput.value && telegramChatIdInput.value.trim()) || undefined // Send only if filled
+    };
+
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/user-medicines/set-reminder/${medId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                // The backend `auth` middleware expects the token in `x-auth-token`.
+                // Use the token from localStorage (variable `token` defined at top of this module).
+                'x-auth-token': token
+            },
+            body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            console.log("Saving Reminder:", result);
+            closeReminderModal();
+            // Refresh the user's medicine list so the UI reflects the new reminder/tracking status
+            if (typeof fetchMyMedicines === 'function') fetchMyMedicines();
+            alert('🎉 Reminder set successfully! Telegram bot will send reminders at specified times.');
+        } else {
+            console.error("Backend Error:", result);
+            alert(`❌ Error: ${result.message || 'Failed to save reminder.'}`);
+        }
+    } catch (error) {
+        console.error("Network Error:", error);
+        alert('A network error occurred. Please check your console.');
+    }
+});
+
+// ... (rest of your frontend code) ...
+
+
+
             const openAddMedModal = () => { if(addMedModal) addMedModal.classList.remove('hidden'); };
             const closeAddMedModal = () => { if(addMedModal) addMedModal.classList.add('hidden'); };
             const addMedBtn = document.getElementById('btn-add-medicine');

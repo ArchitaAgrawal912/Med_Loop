@@ -147,6 +147,47 @@
         </div>
     </div>
 </div>
+<!-- ✅ Set Reminder Modal -->
+<div id="set-reminder-modal" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+  <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
+    <h2 class="text-xl font-bold mb-4">Set Medicine Reminder</h2>
+    <form id="set-reminder-form" class="space-y-3">
+      <input type="hidden" id="reminder-med-id" name="medicineId">
+
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">Purchase Date</label>
+        <input type="date" id="purchase-date" name="purchaseDate" class="w-full border rounded px-3 py-2" required>
+      </div>
+
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">Stock (days)</label>
+        <input type="number" id="stock-days" name="stockDays" class="w-full border rounded px-3 py-2" placeholder="e.g., 15" required>
+      </div>
+
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">Dosage (per day)</label>
+        <input type="number" id="dosage" name="dosage" class="w-full border rounded px-3 py-2" placeholder="e.g., 2" required>
+      </div>
+
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">Reminder Times (24-hour format)</label>
+        <input type="text" id="reminder-times" name="reminderTimes" class="w-full border rounded px-3 py-2" placeholder='e.g., 08:00, 14:00, 20:00' required>
+        <p class="text-xs text-gray-500 mt-1">Enter multiple times separated by commas.</p>
+      </div>
+      <label for="med-telegram-id" class="block text-sm font-medium text-gray-700">Telegram Chat ID (First Time Setup)</label>
+    <input type="text" id="med-telegram-id" name="telegramChatId" 
+           class="mt-1 block w-full p-2 border rounded-md" 
+           placeholder="Enter the ID sent by your MediConnect Bot" 
+           required>
+    <p class="text-xs text-gray-500 mt-1">Send the bot /link to get your ID.</p>
+
+      <div class="flex justify-end gap-3 mt-4">
+        <button type="button" id="cancel-reminder" class="bg-gray-400 text-white px-4 py-2 rounded hover:opacity-80">Cancel</button>
+        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Save Reminder</button>
+      </div>
+    </form>
+  </div>
+</div>
 
 <script src="js/dashboard.js"></script>
 </body>
